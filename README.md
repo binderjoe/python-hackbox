@@ -32,7 +32,7 @@ REPO_URL=https://github.com/noelbundick/python-hackbox.git
 REPO_BRANCH=master
 IDENTITY_ID=`az identity show -n hackbox -g hackbox --query id -o tsv`
 
-az container create -g hackbox -n hackbox --image acanthamoeba/hackbox:latest -e "REPO_URL=$REPO_URL" "SSH_PUBLIC_KEY=$SSHPUBLIC" --ports 22 --dns-name-label noelhackbox --cpu 2 --memory 2 --assign-identity $IDENTITY_ID
+az container create -g hackbox -n hackbox --image acanthamoeba/hackbox:latest -e "REPO_URL=$REPO_URL" "REPO_BRANCH=$REPO_BRANCH" "SSH_PUBLIC_KEY=$SSHPUBLIC" --ports 22 --dns-name-label noelhackbox --cpu 2 --memory 2 --assign-identity $IDENTITY_ID
 ```
 
 In Visual Studio Code:
