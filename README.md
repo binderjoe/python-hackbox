@@ -27,3 +27,17 @@ IDENTITY_ID=`az identity show -n hackbox -g hackbox --query id -o tsv`
 
 az container create -g hackbox -n hackbox --image acanthamoeba/hackbox:latest -e "REPO_URL=$REPO_URL" "SSH_PUBLIC_KEY=$SSHPUBLIC" --ports 22 --dns-name-label noelhackbox --cpu 2 --memory 2 --assign-identity $IDENTITY_ID
 ```
+
+In Visual Studio Code:
+
+* Install [Visual Studio Code](https://code.visualstudio.com)
+* Get the [Remote Development Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
+
+Add an entry to your SSH config
+
+```
+Host hackbox
+    User root
+    HostName noelhackbox.westus2.azurecontainer.io
+    IdentityFile C:\users\noel\.ssh\id_rsa
+```
