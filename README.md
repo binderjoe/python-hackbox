@@ -2,6 +2,13 @@
 
 This is a Python dev container meant to be run on Azure Container Instances
 
+## Features
+
+* Dependencies pre-pulled into the image in a virtual environment
+* Azure CLI + Managed Identity w/ automatic login
+* Configured for VS Code SSH Remote Development
+* Clones a repo on startup
+
 ## Usage
 
 One-time steps
