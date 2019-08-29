@@ -25,14 +25,20 @@ az group create -n hackbox -l westus
 az identity create -n hackbox -g hackbox
 PRINCIPAL_ID=`az identity show -n hackbox -g hackbox --query principalId -o tsv`
 az role assignment create --role Contributor --assignee $PRINCIPAL_ID
+az keyvault secret create -n noelhackbox -g hackbox
+az keyvault set-policy -n noelhackbox --object-id $PRINCIPAL_ID --secret-permissions 'get'
+az keyvault secret set --vault-name noelhackbox -n foo --value bar
+az keyvault secret set --vault-name noelhackbox -n baz --value secret
 
 # Create an Azure Container Instance
 SSHPUBLIC=`cat ~/.ssh/id_rsa.pub`
 REPO_URL=https://github.com/noelbundick/python-hackbox.git
 REPO_BRANCH=master
 IDENTITY_ID=`az identity show -n hackbox -g hackbox --query id -o tsv`
+KEY_VAULT=noelhackbox
+KEY_VAULT_SECRETS="foo:foo.txt,bar:my_bar.txt"
 
-az container create -g hackbox -n hackbox --image acanthamoeba/hackbox:latest -e "REPO_URL=$REPO_URL" "REPO_BRANCH=$REPO_BRANCH" "SSH_PUBLIC_KEY=$SSHPUBLIC" --ports 22 --dns-name-label noelhackbox --cpu 2 --memory 2 --assign-identity $IDENTITY_ID
+az container create -g hackbox -n hackbox --image acanthamoeba/hackbox:latest -e "REPO_URL=$REPO_URL" "REPO_BRANCH=$REPO_BRANCH" "SSH_PUBLIC_KEY=$SSHPUBLIC" "KEY_VAULT=$KEY_VAULT" "KEY_VAULT_SECRETS=$KEY_VAULT_SECRETS" --ports 22 --dns-name-label noelhackbox --cpu 2 --memory 2 --assign-identity $IDENTITY_ID
 ```
 
 In Visual Studio Code:
