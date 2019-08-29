@@ -11,6 +11,7 @@ git remote add origin $REPO_URL
 git pull origin $REPO_BRANCH
 
 # Pull secrets
+az login --identity --allow-no-subscriptions
 if [[ ! -z $KEY_VAULT ]]; then
     IFS=',' read -a secrets <<< "${KEY_VAULT_SECRETS}"
     for secret in "${secrets[@]}"
