@@ -37,8 +37,9 @@ REPO_BRANCH=master
 IDENTITY_ID=`az identity show -n hackbox -g hackbox --query id -o tsv`
 KEY_VAULT=noelhackbox
 KEY_VAULT_SECRETS="foo:foo.txt,bar:my_bar.txt"
+AZURE_SUBSCRIPTION_ID=a9edaf6e-45e6-4879-b8fb-fb07d9b7104b
 
-az container create -g hackbox -n hackbox --image acanthamoeba/hackbox:latest -e "REPO_URL=$REPO_URL" "REPO_BRANCH=$REPO_BRANCH" "SSH_PUBLIC_KEY=$SSHPUBLIC" "KEY_VAULT=$KEY_VAULT" "KEY_VAULT_SECRETS=$KEY_VAULT_SECRETS" --ports 22 --dns-name-label noelhackbox --cpu 2 --memory 2 --assign-identity $IDENTITY_ID
+az container create -g hackbox -n hackbox --image acanthamoeba/hackbox:latest -e "REPO_URL=$REPO_URL" "REPO_BRANCH=$REPO_BRANCH" "SSH_PUBLIC_KEY=$SSHPUBLIC" "KEY_VAULT=$KEY_VAULT" "KEY_VAULT_SECRETS=$KEY_VAULT_SECRETS" "AZURE_SUBSCRIPTION_ID=$AZURE_SUBSCRIPTION_ID" --ports 22 --dns-name-label noelhackbox --cpu 2 --memory 2 --assign-identity $IDENTITY_ID
 ```
 
 In Visual Studio Code:

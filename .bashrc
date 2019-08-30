@@ -129,3 +129,6 @@ source ~/hack/.venv/bin/activate
 
 # Login to azure
 az login --identity >/dev/null
+
+# Set default sub
+az account set -s $AZURE_SUBSCRIPTION_ID

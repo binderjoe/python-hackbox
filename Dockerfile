@@ -33,12 +33,6 @@ RUN curl -Lo requirements.txt $REQ \
     && pip install -r requirements.txt \
     && rm requirements.txt
 
-# Setup the environment
-ENV REPO_BRANCH=master
-RUN git config --global user.name "Hacker" \
-    && git config --global user.email "hacker@example.com"
-COPY .bashrc /root
-
 # Preinstall VS Code server
 ARG VSCODE_COMMIT=f06011ac164ae4dc8e753a3fe7f9549844d15e35
 RUN mkdir -p ~/.vscode-server/bin/$VSCODE_COMMIT \
@@ -57,5 +51,11 @@ RUN apt-get install -y unzip \
     && mv extension ms-python.python-$VSCODE_PYTHON_VERSION \
     && rm '[Content_Types].xml' extension.vsixmanifest extension.zip
 
+# Setup the environment
+ENV REPO_BRANCH=master
+RUN git config --global user.name "Hacker" \
+    && git config --global user.email "hacker@example.com"
+COPY .bashrc /root
 COPY startup.sh /
+
 CMD ["/bin/bash", "/startup.sh"]
