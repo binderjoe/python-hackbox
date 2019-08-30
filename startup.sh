@@ -5,10 +5,16 @@ set -euo pipefail
 mkdir -p ~/.ssh
 echo $SSH_PUBLIC_KEY >> ~/.ssh/authorized_keys
 
+# Update git config if GIT_USERNAME was set
+if [[ ! -z $GIT_USERNAME ]]; then
+    git config --global user.name "$GIT_USERNAME"
+fi
+
 # Pull git repo
 git init
 git remote add origin $REPO_URL
 git pull origin $REPO_BRANCH
+git push --set-upstream origin $REPO_BRANCH
 
 # Pull secrets
 az login --identity --allow-no-subscriptions

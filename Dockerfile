@@ -35,8 +35,27 @@ RUN curl -Lo requirements.txt $REQ \
 
 # Setup the environment
 ENV REPO_BRANCH=master
-RUN git config --global user.name "Hacker"
+RUN git config --global user.name "Hacker" \
+    && git config --global user.email "hacker@example.com"
 COPY .bashrc /root
+
+# Preinstall VS Code server
+ARG VSCODE_COMMIT=f06011ac164ae4dc8e753a3fe7f9549844d15e35
+RUN mkdir -p ~/.vscode-server/bin/$VSCODE_COMMIT \
+    && cd ~/.vscode-server/bin/$VSCODE_COMMIT \
+    && curl -L https://update.code.visualstudio.com/commit:$VSCODE_COMMIT/server-linux-x64/stable -o vscode-server-linux-x64.tar.gz \
+    && tar -xvzf vscode-server-linux-x64.tar.gz --strip-components 1 \
+    && rm vscode-server-linux-x64.tar.gz
+
+# Install Python VS Code extension
+ARG VSCODE_PYTHON_VERSION=2019.8.30787
+RUN apt-get install -y unzip \
+    && mkdir -p ~/.vscode-server/extensions \
+    && cd ~/.vscode-server/extensions \
+    && curl https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-python/vsextensions/python/$VSCODE_PYTHON_VERSION/vspackage --compressed -o extension.zip \
+    && unzip extension.zip \
+    && mv extension ms-python.python-$VSCODE_PYTHON_VERSION \
+    && rm '[Content_Types].xml' extension.vsixmanifest extension.zip
 
 COPY startup.sh /
 CMD ["/bin/bash", "/startup.sh"]
