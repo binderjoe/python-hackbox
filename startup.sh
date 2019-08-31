@@ -27,5 +27,8 @@ if [[ ! -z $KEY_VAULT ]]; then
     done
 fi
 
+# Set default sub
+az account set -s $AZURE_SUBSCRIPTION_ID
+
 # Start sshd
 /usr/sbin/sshd -D
