@@ -25,7 +25,7 @@ EXPOSE 22
 
 # Pre-pull dependencies
 WORKDIR /root/hack
-ARG REQ=https://raw.githubusercontent.com/noelbundick/python-hackbox/master/requirements.txt
+ARG REQ=https://raw.githubusercontent.com/binderjoe/python-hackbox/master/requirements.txt
 RUN curl -Lo requirements.txt $REQ \
     && python3 -m venv .venv \
     && . .venv/bin/activate \
